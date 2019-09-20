@@ -46,4 +46,4 @@ class Solution:
 
 if __name__ == '__main__':
     sol = Solution()
-    print(sol.convertToTitle(701))
+    print(sol.convertToTitle(7011))
