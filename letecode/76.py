@@ -77,9 +77,35 @@ class Solution(object):
             start += 1
         return ''
 
+    def minWindow3(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        if not t or not s:
+            return ""
+        length = len(s)
+        res = ' ' * length
+        t_len = len(t)
+        left, right = 0, t_len
+        t_count = Counter(t)
+        while left <= length - t_len:
+            while right <= length and t_count - Counter(s[left:right]):
+                # print(left, right)
+                right += 1
+            else:
+                while right - left - 1 >= t_len and not t_count - Counter(s[left + 1:right]):
+                    left += 1
+                    # print(left, right, s[left:right])
+                if right - left <= len(res) and not t_count - Counter(s[left:right]):
+                    res = s[left:right]
+                left += 1
+        return res if res != ' ' * length else ''
+
 
 if __name__ == '__main__':
     sol = Solution()
-    S = "aaaaaaaaaaaabbbbbcdd"
-    T = "abcdd"
-    print(sol.minWindow(S, T))
+    S = "A"
+    T = "A"
+    print(sol.minWindow3(S, T))
