@@ -23,6 +23,15 @@
 
 class Solution:
     def longestPalindrome(self, s: str) -> str:
+        def search(s, i, j):
+            if s[i] == s[j]:
+                if i - 1 >= 0 and j + 1 < len(s):
+                    return search(s, i - 1, j + 1)
+                else:
+                    return s[i:j + 1]
+            else:
+                return s[i + 1:j]
+
         if len(s) == 1:
             return s
         fi = ''
@@ -35,12 +44,41 @@ class Solution:
                 fi = n
         return fi
 
+    def longestPalindrome2(self, s: str) -> str:
+        length = len(s)
+        if length < 2:
+            return s
+        res = s[0]
+        dp = [[0] * length for _ in range(length)]
+        for i in range(length):
+            dp[i][i] = 1
+        for i in range(length - 2, -1, -1):
+            for j in range(i + 1, length):
+                if s[i] == s[j]:
+                    if dp[i + 1][j - 1] or (dp[i + 1][j] and dp[i][j - 1] and s[i + 1:j + 1] == s[i:j]):
+                        dp[i][j] = 1
+                        if dp[i][j] and len(res) < j + 1 - i:
+                            res = s[i:j + 1]
+        return res
 
-def search(s, i, j):
-    if s[i] == s[j]:
-        if i - 1 >= 0 and j + 1 < len(s):
-            return search(s, i - 1, j + 1)
-        else:
-            return s[i:j + 1]
-    else:
-        return s[i + 1:j]
+    def longestPalindrome3(self, s: str) -> str:
+        if len(s) < 2 or s == s[::-1]:
+            return s
+        start, ml = 0, 1
+        for i in range(1, len(s)):
+            odd = s[i - ml - 1:i + 1]
+            even = s[i - ml:i + 1]
+            if i - ml - 1 >= 0 and odd == odd[::-1]:
+                start = i - ml - 1
+                ml += 2
+            elif i - ml >= 0 and even == even[::-1]:
+                start = i - ml
+                ml += 1
+        return s[start:start + ml]
+
+
+if __name__ == '__main__':
+    sol = Solution()
+    print(sol.longestPalindrome("babad"))
+    print(sol.longestPalindrome2("abbc"))
+    print(sol.longestPalindrome3("abbc"))

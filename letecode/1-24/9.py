@@ -40,3 +40,23 @@ class Solution:
             return True
         else:
             return False
+
+    def isPalindrome2(self, x):
+        if x < 0 or (x > 0 and x % 10 == 0):
+            return False
+        last = x
+        half = 0
+        while last > half:
+            last, temp_half = divmod(last, 10)
+            if last == half:
+                return True
+            half = half * 10 + temp_half
+        if last == half:
+            return True
+        return False
+
+
+if __name__ == '__main__':
+    sol = Solution()
+    print(sol.isPalindrome(1221))
+    print(sol.isPalindrome2(1221))
