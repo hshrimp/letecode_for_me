@@ -21,9 +21,25 @@ class Solution:
         return s.count('1')
 
     def countDigitOne2(self, n: int) -> int:
-        pass
+        if n < 1:
+            return 0
+        res = 0
+        base = 1
+        while n // base:
+            cur = n // base % 10
+            high = n // base // 10
+            low = n % base
+            if cur > 1:
+                res += (high + 1) * base
+            if cur == 1:
+                res += low + 1 + high * base
+            if cur < 1:
+                res += high * base
+            base *= 10
+        return res
 
 
 if __name__ == '__main__':
     sol = Solution()
-    print(sol.countDigitOne(59))
+    print(sol.countDigitOne(-113))
+    print(sol.countDigitOne2(-13))
