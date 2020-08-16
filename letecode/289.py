@@ -77,13 +77,90 @@ class Solution:
             board[i][:] = res[i][:]
         return board
 
+    def gameOfLife2(self, board) -> None:
+        def count(i, j):
+            c = 0
+            for p, q in dir:
+                if 0 <= i + p < row and 0 <= j + q < col and (board[i + p][j + q] == 1 or board[i + p][j + q] == -1):
+                    c += 1
+            # print(i, j, c)
+            return c
+
+        if not board or not board[0]:
+            return
+        dir = {(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)}
+        row = len(board)
+        col = len(board[0])
+        for i in range(row):
+            for j in range(col):
+                num = count(i, j)
+                if board[i][j] == 0:
+                    if num == 3:  # 如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+                        board[i][j] = 2
+                else:
+                    if num < 2:
+                        board[i][j] = -1  # 如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+                    if num > 3:  # 如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+                        board[i][j] = -1
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == -1:
+                    board[i][j] = 0
+                if board[i][j] == 2:
+                    board[i][j] = 1
+        return board
+
+    def gameOfLife4show(self, board) -> None:
+        def count(i, j):
+            c = 0
+            for p, q in dir:
+                if 0 <= i + p < row and 0 <= j + q < col and (board[i + p][j + q] == 1 or board[i + p][j + q] == -1):
+                    c += 1
+            # print(i, j, c)
+            return c
+
+        dir = {(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)}
+        row = len(board)
+        col = len(board[0])
+        for i in range(row):
+            for j in range(col):
+                num = count(i, j)
+                if board[i][j] == 0:
+                    if num == 3:  # 如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+                        board[i][j] = 2
+                else:
+                    if num < 2:
+                        board[i][j] = -1  # 如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+                    if num > 3:  # 如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+                        board[i][j] = -1
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == -1:
+                    board[i][j] = 0
+                if board[i][j] == 2:
+                    board[i][j] = 1
+        return board
+
+
+def show():
+    import time
+    import os  # 导入os模块
+    import numpy as np
+    board = np.random.randint(0, 1, (30, 100))
+    board[0][2], board[1][0], board[1][2], board[2][1], board[2][2] = 1, 1, 1, 1, 1
+    while True:
+        board = sol.gameOfLife4show(board)
+        for i in range(len(board)):
+            print(''.join('*' if j == 1 else ' ' for j in board[i]))
+        print('-----------------------------------------------------------------------------------------------------')
+        time.sleep(0.5)
+        os.system('clear')
+
 
 if __name__ == '__main__':
     sol = Solution()
-    board = [
-        [0, 1, 0],
-        [0, 0, 1],
-        [1, 1, 1],
-        [0, 0, 0]
-    ]
-    print(sol.gameOfLife(board))
+    # board = [[0] * 50 for _ in range(20)]
+
+    # print(sol.gameOfLife(board))
+    # print(sol.gameOfLife2(board))
+    show()
