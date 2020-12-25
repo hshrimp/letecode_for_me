@@ -63,7 +63,25 @@ class Solution:
             result += k * v
         return result
 
+    def originalDigits2(self, s: str) -> str:
+        from collections import Counter
+        count = Counter(s)
+        num = {}
+        num['0'] = count['z']
+        num['8'] = count['g']
+        num['4'] = count['u']
+        num['2'] = count['w']
+        num['6'] = count['x']
+        num['5'] = count['f'] - num['4']
+        num['3'] = count['h'] - num['8']
+        num['9'] = count['i'] - num['5'] - num['6'] - num['8']
+        num['1'] = count['o'] - num['0'] - num['2'] - num['4']
+        num['7'] = count['s'] - num['6']
+        res = [key * num[key] for key in sorted(num.keys())]
+        return ''.join(res)
+
 
 if __name__ == '__main__':
     sol = Solution()
     print(sol.originalDigits('owoztneoerfviefurozero'))
+    print(sol.originalDigits2('owoztneoerfviefurozero'))
