@@ -42,6 +42,20 @@ class Solution:
                     return True
         return False
 
+    def searchMatrix2(self, matrix, target):
+        if not matrix or not matrix[0]:
+            return False
+        x = len(matrix) - 1
+        y = 0
+        while x >= 0 and y <= len(matrix[0]):
+            if matrix[x][y] == target:
+                return True
+            if matrix[x][y] > target:
+                x -= 1
+            if matrix[x][y] < target:
+                y += 1
+        return False
+
 
 if __name__ == '__main__':
     sol = Solution()
@@ -54,3 +68,4 @@ if __name__ == '__main__':
     ]
     target = 5
     print(sol.searchMatrix(matrix, target))
+    print(sol.searchMatrix2(matrix, target))
